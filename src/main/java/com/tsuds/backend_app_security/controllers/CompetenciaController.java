@@ -1,11 +1,8 @@
 package com.tsuds.backend_app_security.controllers;
 
-import com.tsuds.backend_app_security.dto.ClasificacionDto;
 import com.tsuds.backend_app_security.dto.CompetenciaDto;
-import com.tsuds.backend_app_security.models.Clasificacion;
 import com.tsuds.backend_app_security.models.Competencia;
 import com.tsuds.backend_app_security.models.pojo.Message;
-import com.tsuds.backend_app_security.repository.ClasificacionRepository;
 import com.tsuds.backend_app_security.repository.CompetenciaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/competencia")
 public class CompetenciaController {
+
     @Autowired
     private CompetenciaRepository repository;
 

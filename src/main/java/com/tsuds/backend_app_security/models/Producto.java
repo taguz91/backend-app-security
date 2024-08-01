@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
 @Table(name = "Producto")
+@Accessors(chain = true)
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

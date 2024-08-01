@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Factura")
+@Accessors(chain = true)
 public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

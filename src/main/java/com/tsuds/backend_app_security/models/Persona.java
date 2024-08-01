@@ -22,4 +22,8 @@ public class Persona {
     private String correo;
 
     // Getters y Setters
+
+    public String getNombreCompleto() {
+        return nombre + ' ' + apellido;
+    }
 }

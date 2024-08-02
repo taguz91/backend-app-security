@@ -2,7 +2,7 @@
 
 package com.tsuds.backend_app_security.dto;
 
-import com.tsuds.backend_app_security.models.Usuario;
+import com.tsuds.backend_app_security.models.Rol;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -10,12 +10,15 @@ import lombok.Data;
 public class RolDto {
 
     @NotBlank(message = "El nombre del rol es obligatorio")
-     private String rol;
+    private String rol;
 
-      @NotBlank(message = "El estado del rol es obligatorio")
+    @NotBlank(message = "El estado del rol es obligatorio")
     private boolean estado;
-  
 
-
+    public Rol toRol() {
+        return new Rol()
+                .setRol(rol)
+                .setEstado(estado);
     }
+
 }

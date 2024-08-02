@@ -1,0 +1,7 @@
+services:
+  db:
+    dockerfile: Dockerfile
+    restart: always
+    shm_size: 128mb
+    ports:
+      - 9898:5432

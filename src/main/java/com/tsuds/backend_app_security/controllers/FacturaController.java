@@ -1,14 +1,13 @@
 package com.tsuds.backend_app_security.controllers;
 
-import com.tsuds.backend_app_security.dto.CompetenciaDto;
 import com.tsuds.backend_app_security.dto.FacturaDto;
-import com.tsuds.backend_app_security.models.Competencia;
 import com.tsuds.backend_app_security.models.Factura;
 import com.tsuds.backend_app_security.models.Persona;
+import com.tsuds.backend_app_security.models.TipoPago;
 import com.tsuds.backend_app_security.models.pojo.Message;
-import com.tsuds.backend_app_security.repository.CompetenciaRepository;
 import com.tsuds.backend_app_security.repository.FacturaRepository;
 import com.tsuds.backend_app_security.repository.PersonaRepository;
+import com.tsuds.backend_app_security.repository.TipoPagoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +23,8 @@ public class FacturaController {
     private FacturaRepository repository;
     @Autowired
     private PersonaRepository personaRepository;
+    @Autowired
+    private TipoPagoRepository tipoPagoRepository;
 
     @GetMapping("")
     public List<Factura> all() {
@@ -32,7 +33,7 @@ public class FacturaController {
 
     @PostMapping("")
     public Factura create(@Valid @RequestBody FacturaDto factura) {
-        return repository.save(factura.toFactura());
+        return repository.save(addNestedObjects(factura));
     }
 
     @PutMapping("/{id}")
@@ -40,7 +41,7 @@ public class FacturaController {
             @Valid @RequestBody FacturaDto facturaDto,
             @PathVariable Integer id
     ) {
-        Factura factura = facturaDto.toFactura();
+        Factura factura = addNestedObjects(facturaDto);
         factura.setIdFactura(id);
 
         return repository.save(factura);
@@ -64,5 +65,20 @@ public class FacturaController {
                     "La persona no existe"
             );
         }
+
+        Optional<TipoPago> tipoPago = tipoPagoRepository.findById(facturaDto.getIdTipoPago());
+
+        if (tipoPago.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "El tipo de pago no existe"
+            );
+        }
+
+        Factura factura = facturaDto.toFactura();
+        factura.setPersona(persona.get());
+        factura.setTipoPago(tipoPago.get());
+
+        return factura;
     }
 }

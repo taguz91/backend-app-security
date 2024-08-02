@@ -2,7 +2,7 @@
 
 package com.tsuds.backend_app_security.dto;
 
-import com.tsuds.backend_app_security.models.Usuario;
+import com.tsuds.backend_app_security.models.Producto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -21,17 +21,16 @@ public class ProductoDto {
     private int idClasificacion;
 
     @NotBlank(message = "El proveedor del producto es obligatorio")
-    private Proveedores proveedor;
+    private int idProveedor;
 
     @NotBlank(message = "El iva que controla el producto es obligatorio")
     private boolean iva;
 
     public Producto toProducto() {
         return new Producto()
-                .setStock(stock);
-                .setPrecioUnitario(precioUnitario);
-                .setUnidad(unidad);
-                .setIdClasificacion(idClasificacion);
+                .setStock(stock)
+                .setPrecioUnitario(precioUnitario)
+                .setUnidad(unidad)
                 .setIva(iva);
         
     }

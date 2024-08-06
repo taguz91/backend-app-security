@@ -1,7 +1,6 @@
 FROM library/postgres
 
 ENV POSTGRES_USER docker
-ENV POSTGRES_PASSWORD docker
-ENV POSTGRES_DB docker
+ENV POSTGRES_PASSWORD local
+ENV POSTGRES_DB app-security
 
-COPY init.sql /docker-entrypoint-initdb.d/

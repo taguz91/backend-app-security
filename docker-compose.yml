@@ -1,6 +1,7 @@
 services:
   db:
-    dockerfile: Dockerfile
+    # image: app-security-postgresql
+    image: jgarciax1/app-security-postgresql
     restart: always
     shm_size: 128mb
     ports:

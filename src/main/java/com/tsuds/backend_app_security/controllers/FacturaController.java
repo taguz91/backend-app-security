@@ -1,13 +1,10 @@
 package com.tsuds.backend_app_security.controllers;
 
 import com.tsuds.backend_app_security.dto.FacturaDto;
-import com.tsuds.backend_app_security.models.Factura;
-import com.tsuds.backend_app_security.models.Persona;
-import com.tsuds.backend_app_security.models.TipoPago;
+import com.tsuds.backend_app_security.dto.ItemFacturaDto;
+import com.tsuds.backend_app_security.models.*;
 import com.tsuds.backend_app_security.models.pojo.Message;
-import com.tsuds.backend_app_security.repository.FacturaRepository;
-import com.tsuds.backend_app_security.repository.PersonaRepository;
-import com.tsuds.backend_app_security.repository.TipoPagoRepository;
+import com.tsuds.backend_app_security.repository.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +24,10 @@ public class FacturaController {
     private PersonaRepository personaRepository;
     @Autowired
     private TipoPagoRepository tipoPagoRepository;
+    @Autowired
+    private ItemFacturaRepository itemFacturaRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @GetMapping("")
     public List<Factura> all() {
@@ -35,7 +36,10 @@ public class FacturaController {
 
     @PostMapping("")
     public Factura create(@Valid @RequestBody FacturaDto factura) {
-        return repository.save(addNestedObjects(factura));
+        Factura facturaCreated = repository.save(addNestedObjects(factura));
+
+        createItems(facturaCreated, factura.getItems());
+        return facturaCreated;
     }
 
     @PutMapping("/{id}")
@@ -82,5 +86,31 @@ public class FacturaController {
         factura.setTipoPago(tipoPago.get());
 
         return factura;
+    }
+
+    private void createItems(Factura factura, List<ItemFacturaDto> items) {
+        List<ItemFactura> itemsFactura = items.stream()
+                .map((itemFacturaDto) -> {
+                    Optional<Producto> producto = productoRepository
+                                .findById(itemFacturaDto.getIdProducto());
+
+                    if (producto.isEmpty()) {
+                        throw new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "El producto no existe"
+                        );
+                    }
+
+                    ItemFactura itemFactura = itemFacturaDto.toItemFactura(factura);
+                    itemFactura.setProducto(producto.get());
+                    return itemFactura;
+                })
+                .toList();
+
+        itemsFactura.forEach((itemFactura) -> {
+            itemFacturaRepository.save(itemFactura);
+        });
+
+        factura.setItems(itemsFactura);
     }
 }

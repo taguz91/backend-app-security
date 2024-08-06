@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -25,5 +27,7 @@ public class Usuario {
     private String user;
     private String password;
 
+    @ManyToMany
+    Set<Rol> roles;
     // Getters y Setters
 }

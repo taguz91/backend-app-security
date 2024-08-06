@@ -1,5 +1,6 @@
 package com.tsuds.backend_app_security.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class ItemFactura {
 
     @ManyToOne
     @JoinColumn(name = "id_factura", nullable = false)
+    @JsonIgnore
     private Factura factura;
 
     @ManyToOne

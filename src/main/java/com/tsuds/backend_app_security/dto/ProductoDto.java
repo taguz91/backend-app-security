@@ -4,26 +4,28 @@ package com.tsuds.backend_app_security.dto;
 
 import com.tsuds.backend_app_security.models.Producto;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class ProductoDto {
 
-    @NotBlank(message = "El stock del producto es obligatorio")
+    @NotNull(message = "El stock del producto es obligatorio")
     private int stock;
-    @NotBlank(message = "El precion unitario del producto es obligatorio")
+
+    @NotNull(message = "El precion unitario del producto es obligatorio")
     private double precioUnitario;
 
     @NotBlank(message = "las unidades del producto es obligatorio")
     private String unidad;
   
-    @NotBlank(message = "la clasificacion del producto es obligatorio")
+    @NotNull(message = "la clasificacion del producto es obligatorio")
     private int idClasificacion;
 
-    @NotBlank(message = "El proveedor del producto es obligatorio")
+    @NotNull(message = "El proveedor del producto es obligatorio")
     private int idProveedor;
 
-    @NotBlank(message = "El iva que controla el producto es obligatorio")
+    @NotNull(message = "El iva que controla el producto es obligatorio")
     private boolean iva;
 
     public Producto toProducto() {

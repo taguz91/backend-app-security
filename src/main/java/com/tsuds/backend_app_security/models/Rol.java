@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -19,6 +21,12 @@ public class Rol {
 
     private String rol;
     private boolean estado;
+
+    @ManyToMany
+    Set<Competencia> competencias;
+
+    @ManyToMany
+    Set<Usuario> usuarios;
 
     // Getters y Setters
 }

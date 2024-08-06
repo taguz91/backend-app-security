@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -19,6 +21,9 @@ public class Competencia {
 
     private String nombre;
     private String descripcion;
+
+    @ManyToMany
+    Set<Rol> roles;
 
     // Getters y Setters
 }
